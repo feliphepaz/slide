@@ -2,4 +2,4 @@ export default function slide() {
 
 }
 
-console.log('testandoo');
+console.log('ultimo');
