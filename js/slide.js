@@ -1,6 +1,6 @@
 import debounce from "./debounce.js";
 
-export default class Slide {
+export class Slide {
   constructor(slide, slideWrapper) {
     this.slide = document.querySelector(slide);
     this.slideWrapper = document.querySelector(slideWrapper);
@@ -107,12 +107,18 @@ export default class Slide {
   activePrevSlide() {
     if (this.index.prev !== undefined) {
       this.changeSlide(this.index.prev);
+      if (this.handleClasses) {
+        this.handleClasses(true);
+      }
     }
   }
 
   activeNextSlide() {
     if (this.index.next !== undefined) {
       this.changeSlide(this.index.next);
+      if (this.handleClasses) {
+        this.handleClasses(true);
+      }
     }
   }
 
@@ -138,6 +144,8 @@ export default class Slide {
     this.onStart = this.onStart.bind(this);
     this.onMove = this.onMove.bind(this);
     this.onEnd = this.onEnd.bind(this);
+    this.activePrevSlide = this.activePrevSlide.bind(this);
+    this.activeNextSlide = this.activeNextSlide.bind(this);
     this.onResize = debounce(this.onResize.bind(this), 200);
   }
 
@@ -147,5 +155,52 @@ export default class Slide {
     this.addEvents();
     this.changeSlide(0);
     return this;
+  }
+}
+
+export class SlideNav extends Slide {
+  constructor(slide, slideWrapper, prev, next) {
+    super(slide, slideWrapper);
+    this.prevBtn = document.querySelector(prev);
+    this.nextBtn = document.querySelector(next);
+  }
+
+  createPagination() {
+    const ul = document.createElement('ul');
+    ul.setAttribute('data-control', 'slide');
+    this.slidesArray.forEach((item, index) => {
+      ul.innerHTML += `<li><a href='#slide${index + 1}'></a></li>`;
+    })
+    this.slideWrapper.appendChild(ul);
+    this.pagination = ul;
+  }
+
+  handleClasses(add) {
+    for (const pag of this.arrayPagination) {
+      pag.classList.remove('active');
+    }
+    if (add) {
+      this.arrayPagination[this.index.actual].classList.add('active');
+    }
+  }
+
+  addNavPagination() {
+    this.createPagination();
+    this.arrayPagination = [...this.pagination.children];
+    this.arrayPagination.forEach((item, index) => {
+      item.addEventListener('click', (() => {
+        this.changeSlide(index);
+        this.handleClasses(false);
+        item.classList.add('active');
+      }))
+    })
+  }
+
+  addNav() {
+    this.init();
+    this.prevBtn.addEventListener('click', this.activePrevSlide);
+    this.nextBtn.addEventListener('click', this.activeNextSlide);
+    this.addNavPagination();
+    this.arrayPagination[0].classList.add('active');
   }
 }

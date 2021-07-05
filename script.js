@@ -1,4 +1,4 @@
-import Slide from './js/slide.js';
+import {Slide, SlideNav} from './js/slide.js';
 
-const slide = new Slide('.slide', '.slide-wrapper');
-slide.init();
+const slideNav = new SlideNav('.slide', '.slide-wrapper', '.prev', '.next');
+slideNav.addNav();
