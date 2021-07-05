@@ -159,19 +159,22 @@ export class Slide {
 }
 
 export class SlideNav extends Slide {
-  constructor(slide, slideWrapper, prev, next) {
+  constructor(slide, slideWrapper, prev, next, pagLocation) {
     super(slide, slideWrapper);
     this.prevBtn = document.querySelector(prev);
     this.nextBtn = document.querySelector(next);
+    this.pagLocation = document.querySelector(pagLocation);
   }
 
-  createPagination() {
+  createPagination(addThumbs) {
     const ul = document.createElement('ul');
     ul.setAttribute('data-control', 'slide');
+    ul.classList.add('custom-controls');
     this.slidesArray.forEach((item, index) => {
-      ul.innerHTML += `<li><a href='#slide${index + 1}'></a></li>`;
+      const addThumb = `<img src="../img/foto${index + 1}-thumb.jpg">`
+      ul.innerHTML += `<li>${addThumbs ? addThumb : ""}</li>`;
     })
-    this.slideWrapper.appendChild(ul);
+    this.pagLocation.appendChild(ul);
     this.pagination = ul;
   }
 
@@ -185,7 +188,7 @@ export class SlideNav extends Slide {
   }
 
   addNavPagination() {
-    this.createPagination();
+    this.createPagination(true);
     this.arrayPagination = [...this.pagination.children];
     this.arrayPagination.forEach((item, index) => {
       item.addEventListener('click', (() => {
