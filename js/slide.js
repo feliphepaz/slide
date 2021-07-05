@@ -1,4 +1,4 @@
-import debounce from "./debounce.js";
+import debounce from './debounce';
 
 export class Slide {
   constructor(slide, slideWrapper) {
@@ -8,7 +8,7 @@ export class Slide {
       start: 0,
       movement: 0,
       final: 0,
-    }
+    };
   }
 
   addEvents() {
@@ -61,14 +61,14 @@ export class Slide {
     this.changeSlideOnEnd();
     this.slideTransition(true);
   }
-  
+
   changeSlideOnEnd() {
     if (this.difference > 120 && this.index.prev !== undefined) {
       this.activePrevSlide();
     } else if (this.difference < -120 && this.index.next !== undefined) {
       this.activeNextSlide();
     } else {
-      this.changeSlide(this.index.actual)
+      this.changeSlide(this.index.actual);
     }
   }
 
@@ -93,7 +93,7 @@ export class Slide {
       prev: index ? index - 1 : undefined,
       actual: index,
       next: index === checkLast ? undefined : index + 1,
-    }
+    };
     this.addClass();
   }
 
@@ -129,7 +129,7 @@ export class Slide {
   addClass() {
     this.slidesArray.forEach((slide) => {
       slide.element.classList.remove('active');
-    })
+    });
     this.slidesArray[this.index.actual].element.classList.add('active');
   }
 
@@ -158,7 +158,7 @@ export class Slide {
   }
 }
 
-export class SlideNav extends Slide {
+export default class SlideNav extends Slide {
   constructor(slide, slideWrapper, prev, next, pagLocation) {
     super(slide, slideWrapper);
     this.prevBtn = document.querySelector(prev);
@@ -172,17 +172,17 @@ export class SlideNav extends Slide {
     ul.setAttribute('data-control', 'slide');
     ul.classList.add('custom-controls');
     this.slidesArray.forEach((item, index) => {
-      const addThumb = `<img src="../img/foto${index + 1}-thumb.jpg">`
-      ul.innerHTML += `<li>${addThumbs ? addThumb : ""}</li>`;
-    })
+      const addThumb = `<img src="../img/foto${index + 1}-thumb.jpg">`;
+      ul.innerHTML += `<li>${addThumbs ? addThumb : ''}</li>`;
+    });
     this.pagLocation.appendChild(ul);
     this.pagination = ul;
   }
 
   handleClasses(add) {
-    for (const pag of this.arrayPagination) {
-      pag.classList.remove('active');
-    }
+    this.arrayPagination.forEach((item) => {
+      item.classList.remove('active');
+    });
     if (add) {
       this.arrayPagination[this.index.actual].classList.add('active');
     }
@@ -196,8 +196,8 @@ export class SlideNav extends Slide {
         this.changeSlide(index);
         this.handleClasses(false);
         item.classList.add('active');
-      }))
-    })
+      }));
+    });
   }
 
   addNav() {

@@ -1,18 +1,29 @@
 {
   "name": "slide",
   "version": "1.0.0",
-  "description": "",
+  "description": "Slide realizado como projeto final do curso de JavaScript ES6+",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack --mode development --watch --entry ./script.js",
     "build": "webpack --mode production --entry ./script.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "eslint": "^7.29.0",
     "webpack": "^5.41.1",
     "webpack-cli": "^4.7.2"
-  }
+  },
+  "devDependencies": {
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feliphepaz/slide.git"
+  },
+  "bugs": {
+    "url": "https://github.com/feliphepaz/slide/issues"
+  },
+  "homepage": "https://github.com/feliphepaz/slide#readme"
 }
