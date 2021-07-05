@@ -107,7 +107,7 @@ export class Slide {
   activePrevSlide() {
     if (this.index.prev !== undefined) {
       this.changeSlide(this.index.prev);
-      if (this.handleClasses) {
+      if (this.pagLocation === null || this.havePagination) {
         this.handleClasses(true);
       }
     }
@@ -116,7 +116,7 @@ export class Slide {
   activeNextSlide() {
     if (this.index.next !== undefined) {
       this.changeSlide(this.index.next);
-      if (this.handleClasses) {
+      if (this.pagLocation === null || this.havePagination) {
         this.handleClasses(true);
       }
     }
@@ -164,6 +164,7 @@ export class SlideNav extends Slide {
     this.prevBtn = document.querySelector(prev);
     this.nextBtn = document.querySelector(next);
     this.pagLocation = document.querySelector(pagLocation);
+    this.havePagination = false;
   }
 
   createPagination(addThumbs) {
@@ -203,7 +204,12 @@ export class SlideNav extends Slide {
     this.init();
     this.prevBtn.addEventListener('click', this.activePrevSlide);
     this.nextBtn.addEventListener('click', this.activeNextSlide);
+  }
+
+  addPagination() {
+    this.init();
     this.addNavPagination();
     this.arrayPagination[0].classList.add('active');
+    this.havePagination = true;
   }
 }
